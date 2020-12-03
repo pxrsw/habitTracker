@@ -7,9 +7,14 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const users = require('./routes/api/users');
+const routes = {
+  '/users': require('./routes/api/users'),
+  '/admin': require('./routes/api/admin'),
+}
 
-app.use('/api/users', users);
+Object.keys(routes).forEach((path) => {
+  app.use(`/api${path}`,   routes[path]);
+});
 
 const port = process.env.PORT || 5000;
 
