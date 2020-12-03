@@ -37,14 +37,33 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
 	try{
 	const users = await loadUsersCalletction();
-	await users.deleteOne({
-		_id: new mongodb.ObjectID(req.params.id)
-	});
+	const query = {id: req.params.id};
+	await users.deleteOne(query);
+	// ({
+	// 	_id: new mongodb.ObjectID(req.params.id)
+	// });
 	res.status(200).send();
 }catch(err){
 	console.log(err)
 }
 });
+
+
+router.post('/login', async (req, res) => {
+	try{
+	console.log('req.body: ', req.body);
+  const {id, password} = req.body;
+	const users = await loadUsersCalletction();
+  const query = {id, password};
+	const user = await users.find(query).toArray();
+  console.log('user: \n', user);
+	const result = {role: user[0].role, id};
+	res.status(201).send(result);
+}catch(err){
+	console.log('err: \n', err)
+}
+});
+
 
 async function loadUsersCalletction(){
 const MongoClient = await mongodb.MongoClient.connect
