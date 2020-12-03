@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
 	try{
 		console.log('PRES GET')
-	const users = await loadUsersCollection();
+	const users = await loadUsersCalletction();
 	res.send(await users.find({}).toArray());
 	console.log(await users.find({}).toArray())
 
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
 	try{
 		console.log('pres', req.body);
-	const users = await loadUsersCollection();
+	const users = await loadUsersCalletction();
 	await users.insertOne({
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
@@ -36,26 +36,18 @@ router.post('/', async (req, res) => {
 // Delete users
 router.delete('/:id', async (req, res) => {
 	try{
-<<<<<<< Updated upstream
 	const users = await loadUsersCalletction();
 	const query = {id: req.params.id};
 	await users.deleteOne(query);
 	// ({
 	// 	_id: new mongodb.ObjectID(req.params.id)
 	// });
-=======
-	const users = await loadUsersCollection();
-	await users.deleteOne({
-		_id: new mongodb.ObjectID(req.params.id)
-	});
->>>>>>> Stashed changes
 	res.status(200).send();
 }catch(err){
 	console.log(err)
 }
 });
 
-<<<<<<< Updated upstream
 
 router.post('/login', async (req, res) => {
 	try{
@@ -74,9 +66,6 @@ router.post('/login', async (req, res) => {
 
 
 async function loadUsersCalletction(){
-=======
-async function loadUsersCollection(){
->>>>>>> Stashed changes
 const MongoClient = await mongodb.MongoClient.connect
 ("mongodb+srv://pxrsw:B123123b@habittracker.zsjy4.mongodb.net/habitTracker?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
 return MongoClient.db('habitTracker').collection('users');
